@@ -4,12 +4,17 @@ namespace TurnBasedBattle.Model.Core.Components
 {
     public sealed class UniqueId : IComponent
     {
-        public UniqueId(string value) => 
-            Value = value;
+        public UniqueId(string key, int number)
+        {
+            Key = key;
+            Number = number;
+        }
 
-        public string Value { get; }
+        public string Key { get; }
+        
+        public int Number { get; }
 
         public override string ToString() => 
-            $"{Value}";
+            $"{Key}-{Number}";
     }
 }

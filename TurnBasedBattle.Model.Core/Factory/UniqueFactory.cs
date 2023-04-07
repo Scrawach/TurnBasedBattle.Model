@@ -18,12 +18,11 @@ namespace TurnBasedBattle.Model.Core.Factory
 
         public IEntity Create()
         {
-            var id = $"{_prefix}-{_counter}";
             _counter++;
         
             return _origin
                 .Create()
-                .Add(new UniqueId(id));
+                .Add(new UniqueId(_prefix, _counter));
         }
     }
 }
