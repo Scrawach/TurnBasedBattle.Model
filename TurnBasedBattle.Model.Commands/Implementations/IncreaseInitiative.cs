@@ -23,7 +23,7 @@ namespace TurnBasedBattle.Model.Commands.Implementations
                 return Fail();
 
             var initiative = Target.Get<Initiative>();
-            initiative.Value = Math.Max(initiative.Value + Power, initiative.Total);
+            initiative.Value = Math.Min(initiative.Value + Power, initiative.Total);
             return Success();
         }
     }
