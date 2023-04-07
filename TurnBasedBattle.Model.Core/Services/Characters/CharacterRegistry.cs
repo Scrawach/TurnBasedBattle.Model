@@ -19,12 +19,12 @@ namespace TurnBasedBattle.Model.Core.Services.Characters
         public IEnumerable<IEntity> EnemiesOf(int teamId) =>
             from entity in _entities 
             let id = entity.Get<TeamMarker>().TeamId 
-            where teamId == id select entity;
+            where teamId != id select entity;
 
         public IEnumerable<IEntity> AlliesOf(int teamId) =>
             from entity in _entities 
             let id = entity.Get<TeamMarker>().TeamId 
-            where teamId != id select entity;
+            where teamId == id select entity;
 
         public ICharacterRegistry Add(IEntity character)
         {

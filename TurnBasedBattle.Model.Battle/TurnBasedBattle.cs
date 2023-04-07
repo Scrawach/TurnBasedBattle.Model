@@ -43,8 +43,9 @@ namespace TurnBasedBattle.Model.Battle
             var battle = new BattleProcess(player, enemy);
 
             var config = new FighterConfig{Health = 10, Initiative = 10, Mana = 10, Power = 2};
-            var playerUnitFactory = FighterFactory(config, characters, PlayerTeamId, FighterPrefix);
-            var enemyUnitFactory = FighterFactory(config, characters, EnemyTeamId, FighterPrefix);
+            var fighterFactory = FighterFactory(config, characters, FighterPrefix);
+            var playerUnitFactory = new TeammateFactory(fighterFactory, PlayerTeamId);
+            var enemyUnitFactory = new TeammateFactory(fighterFactory, EnemyTeamId);
             
             executor.Execute(new Spawn(playerUnitFactory));
             var battleResult = BattleResult.Unknown;
@@ -63,17 +64,13 @@ namespace TurnBasedBattle.Model.Battle
             }
         }
 
-        private static IFactory FighterFactory(FighterConfig config, ICharacterRegistry registry, int teamId, string prefix) =>
+        private static IFactory FighterFactory(FighterConfig config, ICharacterRegistry registry, string prefix) =>
             new UniqueFactory
             (
-                new TeammateFactory
+                new RegisterFactory
                 (
-                    new RegisterFactory
-                    (
-                        new FighterFactory(config), 
-                        registry
-                    ),
-                    teamId
+                    new FighterFactory(config), 
+                    registry
                 ),
                 prefix
             );
