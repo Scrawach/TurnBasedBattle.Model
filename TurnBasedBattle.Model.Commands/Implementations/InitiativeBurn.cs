@@ -26,5 +26,8 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             initiative.Value = Math.Max(0, initiative.Value - Power);
             return Success();
         }
+
+        public override string ToString() =>
+            $"{Target} burn {Power} initiative";
     }
 }

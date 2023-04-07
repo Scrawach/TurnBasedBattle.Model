@@ -21,5 +21,8 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Children.Add(new InitiativeBurn(Target, initiative.Total));
             return Success();
         }
+
+        public override string ToString() =>
+            $"{Target} burn full initiative";
     }
 }

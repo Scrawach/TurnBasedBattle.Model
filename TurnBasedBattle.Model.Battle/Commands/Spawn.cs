@@ -20,5 +20,8 @@ namespace TurnBasedBattle.Model.Battle.Commands
             Spawned = entity;
             return Success();
         }
+
+        public override string ToString() =>
+            $"Spawn entity";
     }
 }

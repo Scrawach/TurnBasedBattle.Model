@@ -26,5 +26,8 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             initiative.Value = Math.Min(initiative.Value + Power, initiative.Total);
             return Success();
         }
+
+        public override string ToString() =>
+            $"{Target} take {Power} initiative ";
     }
 }
