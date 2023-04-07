@@ -1,7 +1,7 @@
 using System;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 
-namespace TurnBasedBattle.Model.Core.Services.Characters
+namespace TurnBasedBattle.Model.Core.Services.Characters.Abstract
 {
     public interface ICharacterRegistry : ICharacterProvider, IDisposable
     {

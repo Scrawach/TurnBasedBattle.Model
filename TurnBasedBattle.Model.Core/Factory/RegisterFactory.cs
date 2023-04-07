@@ -1,6 +1,6 @@
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
-using TurnBasedBattle.Model.Core.Services.Characters;
+using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 
 namespace TurnBasedBattle.Model.Core.Factory
 {
