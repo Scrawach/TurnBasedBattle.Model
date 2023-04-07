@@ -15,7 +15,7 @@ using TurnBasedBattle.Model.EventBus.Abstract;
 
 namespace TurnBasedBattle.Model.Battle
 {
-    public class TurnBasedBattle
+    public sealed class TurnBasedBattle
     {
         private const int PlayerTeamId = 0;
         private const int EnemyTeamId = 1;

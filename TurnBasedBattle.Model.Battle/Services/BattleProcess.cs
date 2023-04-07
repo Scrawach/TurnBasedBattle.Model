@@ -4,7 +4,7 @@ using TurnBasedBattle.Model.Commands.Services.Abstract;
 
 namespace TurnBasedBattle.Model.Battle.Services
 {
-    public class BattleProcess
+    public sealed class BattleProcess
     {
         private readonly IPlayer _player;
         private readonly IPlayer _enemy;

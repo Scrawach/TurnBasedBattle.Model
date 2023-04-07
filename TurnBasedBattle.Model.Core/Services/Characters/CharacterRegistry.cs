@@ -6,7 +6,7 @@ using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 
 namespace TurnBasedBattle.Model.Core.Services.Characters
 {
-    public class CharacterRegistry : ICharacterRegistry
+    public sealed class CharacterRegistry : ICharacterRegistry
     {
         private readonly List<IEntity> _entities;
 

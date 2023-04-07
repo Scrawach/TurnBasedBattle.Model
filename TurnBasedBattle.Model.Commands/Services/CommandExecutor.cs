@@ -1,5 +1,4 @@
 ﻿using TurnBasedBattle.Model.Commands.Abstract;
-using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Commands.Services.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 

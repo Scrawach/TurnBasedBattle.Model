@@ -11,7 +11,7 @@ using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 
 namespace TurnBasedBattle.Model.Battle.AI
 {
-    public class MeleeHitRepeater : IPlayer
+    public sealed class MeleeHitRepeater : IPlayer
     {
         private readonly ICharacterProvider _characters;
         private readonly int _teamId;
