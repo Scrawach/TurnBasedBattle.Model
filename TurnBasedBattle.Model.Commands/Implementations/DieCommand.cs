@@ -10,8 +10,11 @@ namespace TurnBasedBattle.Model.Commands.Implementations
         public DieCommand(IEntity target) =>
             Target = target;
         
-        protected override CommandStatus OnExecute(ICoreMechanics core) =>
-            Success();
+        protected override CommandStatus OnExecute(ICoreMechanics core)
+        {
+            core.Characters.Remove(Target);
+            return Success();
+        }
 
         public override string ToString() =>
             $"{Target} died";

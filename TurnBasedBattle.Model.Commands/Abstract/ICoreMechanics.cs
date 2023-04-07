@@ -1,6 +1,7 @@
 using TurnBasedBattle.Model.Core.Services.Characters;
+using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 
-namespace TurnBasedBattle.Model.Commands.Implementations
+namespace TurnBasedBattle.Model.Commands.Abstract
 {
     public interface ICoreMechanics
     {
