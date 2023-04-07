@@ -42,7 +42,7 @@ namespace TurnBasedBattle.Model.Battle
             var enemy = new MeleeHitRepeater(characters, EnemyTeamId);
             var battle = new BattleProcess(player, enemy);
 
-            var config = new FighterConfig{Health = 10, Initiative = 10, Mana = 10, Power = 2};
+            var config = new FighterConfig{Health = 10, Initiative = 5, Mana = 10, Power = 5};
             var fighterFactory = FighterFactory(config, characters, FighterPrefix);
             var playerUnitFactory = new TeammateFactory(fighterFactory, PlayerTeamId);
             var enemyUnitFactory = new TeammateFactory(fighterFactory, EnemyTeamId);
