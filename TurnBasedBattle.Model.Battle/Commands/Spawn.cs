@@ -16,7 +16,6 @@ namespace TurnBasedBattle.Model.Battle.Commands
         protected override CommandStatus OnExecute(ICoreMechanics core)
         {
             var entity = _factory.Create();
-            core.Characters.Add(entity);
             Spawned = entity;
             return Success();
         }
