@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using TurnBasedBattle.Model.Commands.Implementations;
 
 namespace TurnBasedBattle.Model.Commands.Abstract
 {
@@ -11,13 +12,13 @@ namespace TurnBasedBattle.Model.Commands.Abstract
 
         IEnumerable<ICommand> ICommand.Children => Children;
     
-        void ICommand.Execute()
+        void ICommand.Execute(ICoreMechanics core)
         {
             Children.Clear();
-            Status = OnExecute();
+            Status = OnExecute(core);
         }
 
-        protected abstract CommandStatus OnExecute();
+        protected abstract CommandStatus OnExecute(ICoreMechanics core);
 
         protected static CommandStatus Success() => CommandStatus.Success;
     

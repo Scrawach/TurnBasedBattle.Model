@@ -10,7 +10,7 @@ namespace TurnBasedBattle.Model.Commands.Implementations
         public DieCommand(IEntity target) =>
             Target = target;
         
-        protected override CommandStatus OnExecute() =>
+        protected override CommandStatus OnExecute(ICoreMechanics core) =>
             Success();
 
         public override string ToString() =>

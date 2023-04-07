@@ -17,7 +17,7 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Damage = damage;
         }
 
-        protected override CommandStatus OnExecute()
+        protected override CommandStatus OnExecute(ICoreMechanics core)
         {
             if (Target.HasNot<Health>())
                 return Fail();

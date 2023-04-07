@@ -16,7 +16,7 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Defender = defender;
         }
 
-        protected override CommandStatus OnExecute()
+        protected override CommandStatus OnExecute(ICoreMechanics core)
         {
             if (Attacker.HasNot<Fighting>())
                 return Fail();

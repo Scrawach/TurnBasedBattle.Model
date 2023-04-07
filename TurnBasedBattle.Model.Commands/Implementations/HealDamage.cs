@@ -1,5 +1,6 @@
 ﻿using System;
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Extensions;
@@ -15,7 +16,7 @@ public sealed class HealDamage : BaseCommand
         Power = power;
     }
 
-    protected override CommandStatus OnExecute()
+    protected override CommandStatus OnExecute(ICoreMechanics core)
     {
         if (Target.HasNot<Health>())
             return Fail();

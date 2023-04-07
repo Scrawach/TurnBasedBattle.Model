@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TurnBasedBattle.Model.Commands.Implementations;
 
 namespace TurnBasedBattle.Model.Commands.Abstract
 {
@@ -6,6 +7,6 @@ namespace TurnBasedBattle.Model.Commands.Abstract
     {
         CommandStatus Status { get; }
         IEnumerable<ICommand> Children { get; }
-        void Execute();
+        void Execute(ICoreMechanics core);
     }
 }

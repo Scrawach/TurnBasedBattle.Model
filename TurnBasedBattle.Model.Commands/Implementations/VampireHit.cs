@@ -16,7 +16,7 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Power = power;
         }
 
-        protected override CommandStatus OnExecute()
+        protected override CommandStatus OnExecute(ICoreMechanics core)
         {
             Children.Add(new DealDamage(Defender, Power));
             Children.Add(new HealDamage(Attacker, Power));
