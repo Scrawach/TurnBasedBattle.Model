@@ -4,6 +4,6 @@ namespace TurnBasedBattle.Model.Commands.Implementations
 {
     public interface ICoreMechanics
     {
-        ICharacterProvider Characters { get; }
+        ICharacterRegistry Characters { get; }
     }
 }
