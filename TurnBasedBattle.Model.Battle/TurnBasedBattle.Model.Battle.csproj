@@ -7,7 +7,6 @@
     <ItemGroup>
       <ProjectReference Include="..\TurnBasedBattle.Model.Commands\TurnBasedBattle.Model.Commands.csproj" />
       <ProjectReference Include="..\TurnBasedBattle.Model.Core\TurnBasedBattle.Model.Core.csproj" />
-      <ProjectReference Include="..\TurnBasedBattle.Model.EventBus\TurnBasedBattle.Model.EventBus.csproj" />
     </ItemGroup>
 
 </Project>

@@ -5,14 +5,11 @@ using TurnBasedBattle.Model.Battle.Commands;
 using TurnBasedBattle.Model.Battle.Services;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
-using TurnBasedBattle.Model.Commands.Services;
 using TurnBasedBattle.Model.Commands.Services.Abstract;
 using TurnBasedBattle.Model.Core.Factory;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
 using TurnBasedBattle.Model.Core.Factory.Configs;
-using TurnBasedBattle.Model.Core.Services.Characters;
 using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
-using TurnBasedBattle.Model.EventBus.Abstract;
 
 namespace TurnBasedBattle.Model.Battle
 {
