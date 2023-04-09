@@ -6,6 +6,7 @@ using TurnBasedBattle.Model.Battle.Services;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Commands.Services;
+using TurnBasedBattle.Model.Commands.Services.Abstract;
 using TurnBasedBattle.Model.Core.Factory;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
 using TurnBasedBattle.Model.Core.Factory.Configs;
@@ -22,21 +23,21 @@ namespace TurnBasedBattle.Model.Battle
         private const string FighterPrefix = "Knight";
         private const int InitiativePerTick = 1;
 
-        private readonly IEventBus<ICommand> _bus;
+        private readonly ICommandExecutor _executor;
+        private readonly ICoreMechanics _mechanics;
         private readonly IView _view;
 
-        public TurnBasedBattle(IEventBus<ICommand> bus, IView view)
+        public TurnBasedBattle(ICommandExecutor executor, ICoreMechanics mechanics, IView view)
         {
-            _bus = bus;
+            _executor = executor;
+            _mechanics = mechanics;
             _view = view;
         }
 
         public async Task Process()
         {
-            var characters = new CharacterRegistry();
-            var mechanics = new CoreMechanics(characters);
-
-            var executor = new CommandExecutor(_bus, mechanics);
+            var characters = _mechanics.Characters;
+            var executor = _executor;
 
             var player = new MeleeHitRepeater(characters, PlayerTeamId);
             var enemy = new MeleeHitRepeater(characters, EnemyTeamId);
