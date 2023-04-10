@@ -49,12 +49,16 @@ namespace TurnBasedBattle.Model.Battle
 
         private async Task RunBattle(IFactory playerFactory, IFactory enemyFactory, BattleProcess battle)
         {
-            _executor.Execute(new Spawn(playerFactory));
+            var player = playerFactory.Create();
+            _executor.Execute(new Spawn(player));
+            
             var battleResult = BattleResult.Unknown;
-
             while (battleResult != BattleResult.EnemyWin)
             {
-                _executor.Execute(new Spawn(enemyFactory));
+                var enemy = enemyFactory.Create();
+                _executor.Execute(new Spawn(enemy));
+                
+                _executor.Execute(new StartBattle());
                 battleResult = BattleResult.Unknown;
 
                 while (battleResult == BattleResult.Unknown)
@@ -63,6 +67,8 @@ namespace TurnBasedBattle.Model.Battle
                     battleResult = await battle.Process(_executor);
                     await _view.Update();
                 }
+                
+                _executor.Execute(new HealDamage(player, 10));
             }
         }
 
