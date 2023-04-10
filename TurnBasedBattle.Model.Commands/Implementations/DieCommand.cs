@@ -1,21 +1,22 @@
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 
 namespace TurnBasedBattle.Model.Commands.Implementations
 {
-    public sealed class DieCommand : BaseCommand
+    public sealed class DieCommand : ICommand
     {
         public readonly IEntity Target;
 
         public DieCommand(IEntity target) =>
             Target = target;
         
-        protected override CommandStatus OnExecute(ICoreMechanics core)
+        public ICommandResult Execute(ICoreMechanics core)
         {
             core.Characters.Remove(Target);
-            return Success();
+            return new Success();
         }
-
+        
         public override string ToString() =>
             $"{Target} died";
     }

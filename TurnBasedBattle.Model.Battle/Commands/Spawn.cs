@@ -1,10 +1,11 @@
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
 
 namespace TurnBasedBattle.Model.Battle.Commands
 {
-    public sealed class Spawn : BaseCommand
+    public sealed class Spawn : ICommand
     {
         private readonly IFactory _factory;
 
@@ -13,11 +14,11 @@ namespace TurnBasedBattle.Model.Battle.Commands
         public Spawn(IFactory factory) =>
             _factory = factory;
 
-        protected override CommandStatus OnExecute(ICoreMechanics core)
+        public ICommandResult Execute(ICoreMechanics core)
         {
             var entity = _factory.Create();
             Spawned = entity;
-            return Success();
+            return new Success();
         }
 
         public override string ToString() =>

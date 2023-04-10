@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using TurnBasedBattle.Model.Commands.Implementations;
+﻿using TurnBasedBattle.Model.Commands.Abstract.Results;
 
 namespace TurnBasedBattle.Model.Commands.Abstract
 {
     public interface ICommand
     {
-        CommandStatus Status { get; }
-        IEnumerable<ICommand> Children { get; }
-        void Execute(ICoreMechanics core);
+        ICommandResult Execute(ICoreMechanics core);
     }
 }

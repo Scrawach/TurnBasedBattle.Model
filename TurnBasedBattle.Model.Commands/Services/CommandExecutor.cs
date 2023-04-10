@@ -17,9 +17,9 @@ namespace TurnBasedBattle.Model.Commands.Services
 
         public void Execute(ICommand command)
         {
-            command.Execute(_core);
+            var result = command.Execute(_core);
             _emitter.Start(command);
-            foreach (var child in command.Children) 
+            foreach (var child in result.Children) 
                 Execute(child);
             _emitter.Done(command);
         }

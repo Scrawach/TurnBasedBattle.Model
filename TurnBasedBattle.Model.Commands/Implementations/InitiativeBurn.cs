@@ -1,12 +1,13 @@
 using System;
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Extensions;
 
 namespace TurnBasedBattle.Model.Commands.Implementations
 {
-    public sealed class InitiativeBurn : BaseCommand
+    public sealed class InitiativeBurn : ICommand
     {
         public readonly IEntity Target;
         public readonly int Power;
@@ -17,14 +18,14 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Power = power;
         }
 
-        protected override CommandStatus OnExecute(ICoreMechanics core)
+        public ICommandResult Execute(ICoreMechanics core)
         {
             if (Target.HasNot<Initiative>())
-                return Fail();
+                return new Fail();
             
             var initiative = Target.Get<Initiative>();
             initiative.Value = Math.Max(0, initiative.Value - Power);
-            return Success();
+            return new Success();
         }
 
         public override string ToString() =>

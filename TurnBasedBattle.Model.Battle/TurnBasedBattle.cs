@@ -34,7 +34,6 @@ namespace TurnBasedBattle.Model.Battle
         public async Task Process()
         {
             var characters = _mechanics.Characters;
-            var executor = _executor;
 
             var player = new MeleeHitRepeater(characters, PlayerTeamId);
             var enemy = new MeleeHitRepeater(characters, EnemyTeamId);
@@ -42,21 +41,26 @@ namespace TurnBasedBattle.Model.Battle
 
             var config = new FighterConfig{Health = 10, Initiative = 5, Mana = 10, Power = 5};
             var fighterFactory = FighterFactory(config, characters, FighterPrefix);
-            var playerUnitFactory = new TeammateFactory(fighterFactory, PlayerTeamId);
-            var enemyUnitFactory = new TeammateFactory(fighterFactory, EnemyTeamId);
+            var playerFactory = new TeammateFactory(fighterFactory, PlayerTeamId);
+            var enemyFactory = new TeammateFactory(fighterFactory, EnemyTeamId);
             
-            executor.Execute(new Spawn(playerUnitFactory));
+            await RunBattle(playerFactory, enemyFactory, battle);
+        }
+
+        private async Task RunBattle(IFactory playerFactory, IFactory enemyFactory, BattleProcess battle)
+        {
+            _executor.Execute(new Spawn(playerFactory));
             var battleResult = BattleResult.Unknown;
 
             while (battleResult != BattleResult.EnemyWin)
             {
-                executor.Execute(new Spawn(enemyUnitFactory));
+                _executor.Execute(new Spawn(enemyFactory));
                 battleResult = BattleResult.Unknown;
 
                 while (battleResult == BattleResult.Unknown)
                 {
-                    executor.Execute(new Tick(InitiativePerTick));
-                    battleResult = await battle.Process(executor);
+                    _executor.Execute(new Tick(InitiativePerTick));
+                    battleResult = await battle.Process(_executor);
                     await _view.Update();
                 }
             }

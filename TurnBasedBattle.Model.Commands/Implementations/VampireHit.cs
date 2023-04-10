@@ -1,9 +1,10 @@
 ﻿using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 
 namespace TurnBasedBattle.Model.Commands.Implementations
 {
-    public sealed class VampireHit : BaseCommand
+    public sealed class VampireHit : ICommand
     {
         public readonly IEntity Attacker;
         public readonly IEntity Defender;
@@ -16,11 +17,11 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Power = power;
         }
 
-        protected override CommandStatus OnExecute(ICoreMechanics core)
-        {
-            Children.Add(new DealDamage(Defender, Power));
-            Children.Add(new HealDamage(Attacker, Power));
-            return Success();
-        }
+        public ICommandResult Execute(ICoreMechanics core) =>
+            new Result
+            (
+                new DealDamage(Defender, Power), 
+                new HealDamage(Attacker, Power)
+            );
     }
 }

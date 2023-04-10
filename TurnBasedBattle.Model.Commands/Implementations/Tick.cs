@@ -1,20 +1,24 @@
+using System.Collections.Generic;
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 
 namespace TurnBasedBattle.Model.Commands.Implementations
 {
-    public sealed class Tick : BaseCommand
+    public sealed class Tick : ICommand
     {
         public readonly int InitiativeIncrease;
 
         public Tick(int initiativeIncrease) =>
             InitiativeIncrease = initiativeIncrease;
         
-        protected override CommandStatus OnExecute(ICoreMechanics core)
+        public ICommandResult Execute(ICoreMechanics core)
         {
-            foreach (var character in core.Characters.All()) 
-                Children.Add(new IncreaseInitiative(character, InitiativeIncrease));
+            var commands = new List<ICommand>();
             
-            return Success();
+            foreach (var character in core.Characters.All()) 
+                commands.Add(new IncreaseInitiative(character, InitiativeIncrease));
+            
+            return new Result(commands.ToArray());
         }
 
         public override string ToString() =>

@@ -1,11 +1,13 @@
-﻿using TurnBasedBattle.Model.Commands.Abstract;
+﻿using CodeBase.Model.TurnBasedBattle.Model.TurnBasedBattle.Model.Commands.Extensions;
+using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Abstract.Results;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Extensions;
 
 namespace TurnBasedBattle.Model.Commands.Implementations
 {
-    public sealed class MeleeHit : BaseCommand
+    public sealed class MeleeHit : ICommand
     {
         public readonly IEntity Attacker;
         public readonly IEntity Defender;
@@ -16,18 +18,14 @@ namespace TurnBasedBattle.Model.Commands.Implementations
             Defender = defender;
         }
 
-        protected override CommandStatus OnExecute(ICoreMechanics core)
+        public ICommandResult Execute(ICoreMechanics core)
         {
             if (Attacker.HasNot<Fighting>())
-                return Fail();
+                return new Fail();
 
-            var fighting = Attacker.Get<Fighting>();
-            Children.Add(new DealDamage(Defender, fighting.Power));
-        
-            if (Defender.Has<CounterAttack>())
-                Children.Add(new MeleeHit(Defender, Attacker));
-        
-            return Success();
+            return new Result()
+                .With(new DealDamage(Defender, Attacker.Get<Fighting>().Power))
+                .With(new MeleeHit(Defender, Attacker), when: Defender.Has<CounterAttack>());
         }
 
         public override string ToString() => 
