@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using TurnBasedBattle.Model.Battle.AI.Abstract;
+using TurnBasedBattle.Model.Battle.Commands;
 using TurnBasedBattle.Model.Commands.Services.Abstract;
 
 namespace TurnBasedBattle.Model.Battle.Services
@@ -17,22 +18,26 @@ namespace TurnBasedBattle.Model.Battle.Services
 
         public async Task<BattleResult> Process(ICommandExecutor executor)
         {
-            if (_player.HasReadyEntity())
-            {
-                var decision = await _player.MakeDecision();
-                executor.Execute(decision.Action);
-            }
+            await MakeTurn(_player, executor);
+            await MakeTurn(_enemy, executor);
+            return ChoiceResult(_player.IsDefeated(), _enemy.IsDefeated());
+        }
 
-            if (_enemy.HasReadyEntity())
-            {
-                var decision = await _enemy.MakeDecision();
-                executor.Execute(decision.Action);
-            }
+        private static async Task MakeTurn(IPlayer player, ICommandExecutor executor)
+        {
+            if (!player.HasReadyEntity())
+                return;
 
-            if (_player.IsDefeated())
+            var decision = await player.MakeDecision();
+            executor.Execute(new StartTurn(decision.Actor, decision.Action));
+        }
+
+        private static BattleResult ChoiceResult(bool isPlayerDefeated, bool isEnemyDefeated)
+        {
+            if (isEnemyDefeated)
                 return BattleResult.EnemyWin;
 
-            if (_enemy.IsDefeated())
+            if (isPlayerDefeated)
                 return BattleResult.PlayerWin;
 
             return BattleResult.Unknown;
