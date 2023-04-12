@@ -34,10 +34,10 @@ namespace TurnBasedBattle.Model.Battle.Services
 
         private static BattleResult ChoiceResult(bool isPlayerDefeated, bool isEnemyDefeated)
         {
-            if (isEnemyDefeated)
+            if (isPlayerDefeated)
                 return BattleResult.EnemyWin;
 
-            if (isPlayerDefeated)
+            if (isEnemyDefeated)
                 return BattleResult.PlayerWin;
 
             return BattleResult.Unknown;
