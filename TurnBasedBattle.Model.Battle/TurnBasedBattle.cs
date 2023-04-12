@@ -6,7 +6,6 @@ using TurnBasedBattle.Model.Battle.Services;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Commands.Services.Abstract;
-using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Data;
 using TurnBasedBattle.Model.Core.Factory;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
@@ -50,15 +49,11 @@ namespace TurnBasedBattle.Model.Battle
         private async Task RunBattle(IFactory playerFactory, IFactory enemyFactory, BattleProcess battle)
         {
             var player = playerFactory.Create();
-            _executor.Execute(new Spawn(player));
-            
             var battleResult = BattleResult.Unknown;
             while (battleResult != BattleResult.EnemyWin)
             {
                 var enemy = enemyFactory.Create();
-                _executor.Execute(new Spawn(enemy));
-                
-                _executor.Execute(new StartBattle());
+                _executor.Execute(new StartBattle(player, enemy));
                 battleResult = BattleResult.Unknown;
 
                 while (battleResult == BattleResult.Unknown)
