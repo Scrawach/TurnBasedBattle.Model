@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TurnBasedBattle.Model.Battle.AI.Abstract;
-using TurnBasedBattle.Model.Battle.Commands;
-using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
@@ -32,15 +30,7 @@ namespace TurnBasedBattle.Model.Battle.AI
         {
             var self = ReadyCharacter().First();
             var target = _characters.EnemiesOf(_teamId).First();
-            return Task.FromResult(new Decision
-            {
-                Action = new ChainOfCommands
-                (
-                    new StartTurn(self),
-                    new MeleeHit(self, target),
-                    new InitiativeBurnFull(self)
-                )
-            });
+            return Task.FromResult(new Decision(self, new MeleeHit(self, target)));
         }
 
         private IEnumerable<IEntity> ReadyCharacter() =>
