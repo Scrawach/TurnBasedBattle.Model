@@ -16,7 +16,6 @@ namespace TurnBasedBattle.Model.Battle
 {
     public sealed class TurnBasedBattle
     {
-        private const string FighterPrefix = "Knight";
         private const int InitiativePerTick = 1;
 
         private readonly ICommandExecutor _executor;
@@ -38,8 +37,8 @@ namespace TurnBasedBattle.Model.Battle
             var enemy = new MeleeHitRepeater(characters, Team.Enemy);
             var battle = new BattleProcess(player, enemy);
 
-            var config = new FighterConfig{Health = 10, Initiative = 5, Mana = 10, Power = 5};
-            var fighterFactory = FighterFactory(config, characters, FighterPrefix);
+            var config = new FighterConfig{Name = "Knight", Health = 10, Initiative = 5, Mana = 10, Power = 5};
+            var fighterFactory = FighterFactory(config, characters);
             var playerFactory = new TeammateFactory(fighterFactory, Team.Player);
             var enemyFactory = new TeammateFactory(fighterFactory, Team.Enemy);
             
@@ -67,7 +66,7 @@ namespace TurnBasedBattle.Model.Battle
             }
         }
 
-        private static IFactory FighterFactory(FighterConfig config, ICharacterRegistry registry, string prefix) =>
+        private static IFactory FighterFactory(FighterConfig config, ICharacterRegistry registry) =>
             new UniqueFactory
             (
                 new RegisterFactory
@@ -75,7 +74,7 @@ namespace TurnBasedBattle.Model.Battle
                     new FighterFactory(config), 
                     registry
                 ),
-                prefix
+                config.Name
             );
     }
 }
