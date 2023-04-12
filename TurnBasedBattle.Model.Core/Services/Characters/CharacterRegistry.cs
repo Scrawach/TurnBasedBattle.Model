@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using TurnBasedBattle.Model.Core.Components;
+using TurnBasedBattle.Model.Core.Data;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
+using TurnBasedBattle.Model.Core.Extensions;
 using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 
 namespace TurnBasedBattle.Model.Core.Services.Characters
@@ -16,15 +18,15 @@ namespace TurnBasedBattle.Model.Core.Services.Characters
         public IEnumerable<IEntity> All() =>
             _entities;
 
-        public IEnumerable<IEntity> EnemiesOf(int teamId) =>
+        public IEnumerable<IEntity> EnemiesOf(Team team) =>
             from entity in _entities 
-            let id = entity.Get<TeamMarker>().TeamId 
-            where teamId != id select entity;
+            let target = entity.Get<TeamMarker>().Team 
+            where team.IsEnemiesOf(target) select entity;
 
-        public IEnumerable<IEntity> AlliesOf(int teamId) =>
+        public IEnumerable<IEntity> AlliesOf(Team team) =>
             from entity in _entities 
-            let id = entity.Get<TeamMarker>().TeamId 
-            where teamId == id select entity;
+            let target = entity.Get<TeamMarker>().Team 
+            where team.IsAlliesOf(target) select entity;
 
         public ICharacterRegistry Add(IEntity character)
         {

@@ -6,6 +6,8 @@ using TurnBasedBattle.Model.Battle.Services;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Commands.Services.Abstract;
+using TurnBasedBattle.Model.Core.Components;
+using TurnBasedBattle.Model.Core.Data;
 using TurnBasedBattle.Model.Core.Factory;
 using TurnBasedBattle.Model.Core.Factory.Abstract;
 using TurnBasedBattle.Model.Core.Factory.Configs;
@@ -15,8 +17,6 @@ namespace TurnBasedBattle.Model.Battle
 {
     public sealed class TurnBasedBattle
     {
-        private const int PlayerTeamId = 0;
-        private const int EnemyTeamId = 1;
         private const string FighterPrefix = "Knight";
         private const int InitiativePerTick = 1;
 
@@ -35,14 +35,14 @@ namespace TurnBasedBattle.Model.Battle
         {
             var characters = _mechanics.Characters;
 
-            var player = new MeleeHitRepeater(characters, PlayerTeamId);
-            var enemy = new MeleeHitRepeater(characters, EnemyTeamId);
+            var player = new MeleeHitRepeater(characters, Team.Player);
+            var enemy = new MeleeHitRepeater(characters, Team.Enemy);
             var battle = new BattleProcess(player, enemy);
 
             var config = new FighterConfig{Health = 10, Initiative = 5, Mana = 10, Power = 5};
             var fighterFactory = FighterFactory(config, characters, FighterPrefix);
-            var playerFactory = new TeammateFactory(fighterFactory, PlayerTeamId);
-            var enemyFactory = new TeammateFactory(fighterFactory, EnemyTeamId);
+            var playerFactory = new TeammateFactory(fighterFactory, Team.Player);
+            var enemyFactory = new TeammateFactory(fighterFactory, Team.Enemy);
             
             await RunBattle(playerFactory, enemyFactory, battle);
         }
